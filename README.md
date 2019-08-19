@@ -1,0 +1,2 @@
+# common-file-editor
+汎用的なファイル編集インターフェイスを提供するJavaScriptライブラリ
