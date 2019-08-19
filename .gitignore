@@ -1,3 +1,6 @@
+.DS_Store
+Thumbs.db
+
 # Logs
 logs
 *.log
@@ -35,6 +38,9 @@ build/Release
 # Dependency directories
 node_modules/
 jspm_packages/
+package-lock.json
+vendor/
+composer.lock
 
 # TypeScript v1 declaration files
 typings/
@@ -59,3 +65,6 @@ typings/
 
 # next.js build output
 .next
+
+# project
+tests/data/
