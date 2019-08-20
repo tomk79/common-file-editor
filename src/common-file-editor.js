@@ -18,8 +18,7 @@ window.CommonFileEditor = function($elm, options){
 		"tabbody": require('./resources/templates/tabbody.html'),
 		"preview": require('./resources/templates/preview.html'),
 		"editor": {
-			"texteditor": require('./resources/templates/editor/texteditor.html'),
-			"uploader": require('./resources/templates/editor/uploader.html')
+			"texteditor": require('./resources/templates/editor/texteditor.html')
 		}
 	};
 
@@ -220,7 +219,7 @@ window.CommonFileEditor = function($elm, options){
 
 		// 対象のタブをアクティブ化
 		$elm.querySelector('.common-file-editor__tab-bar a[data-filename="'+filename+'"]').classList.add('active');
-		$elms.body.querySelector('.common-file-editor__tab-body[data-filename="'+filename+'"]').style.display = 'block';
+		$elms.body.querySelector('.common-file-editor__tab-body[data-filename="'+filename+'"]').style.display = 'flex';
 
 		return;
 	}

@@ -1,5 +1,7 @@
 .common-file-editor{
 	font-size: medium;
+	display: flex;
+	flex-direction: column;
 	pre code{
 		display: block;
 		overflow: auto;
@@ -10,10 +12,68 @@
 	}
 	textarea{
 		width: 100%;
-		height: 400px;
+		min-height: 300px;
+		height: 100%;
 	}
 	img{
 		max-width: 100%;
 		max-height: 100%;
 	}
+	&__tab-bar{
+		flex-grow: 0;
+	}
+	&__body{
+		flex-grow: 1;
+		overflow: auto;
+		display: flex;
+		flex-direction: column;
+	}
+	&__tab-body{
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+		> *{
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+		}
+	}
+	&__menu-bar{
+		display: flex;
+		margin: 0;
+		padding: 5px 0;
+		li{
+			margin: 0;
+			padding: 0;
+			list-style-type: none;
+		}
+	}
+
+	&__tab-body-preview{
+		display: flex;
+		flex-direction: column;
+		pre{
+			margin: 0;
+			padding: 0;
+			flex-grow: 1;
+			max-height: 100%;
+		}
+		&-main{
+			flex-grow: 1;
+			height: 100%;
+			max-height: 100%;
+			overflow: auto;
+			display: flex;
+			>*{
+				max-height: 100%;
+				max-width: 100%;
+			}
+		}
+	}
+	&__tab-body-image-preview{
+		width: 100%;
+		padding: 20px;
+		text-align: center;
+	 }
+
 }
