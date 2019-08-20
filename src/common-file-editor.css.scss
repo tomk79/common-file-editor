@@ -1,3 +1,11 @@
 .common-file-editor{
 	font-size: medium;
+	pre code{
+		display: block;
+		overflow: auto;
+		padding: 1em;
+		border: 1px solid #eee;
+		background-color: #f9f9f9;
+		border-radius: 5px;
+	}
 }

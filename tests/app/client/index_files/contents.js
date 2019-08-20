@@ -51,6 +51,9 @@
 	// console.log(commonFileEditor);
 	commonFileEditor.init(function(){
 		console.log('ready.');
-		commonFileEditor.createNewPreview('/test/a.html');
+		commonFileEditor.preview('/test/a.html');
+		commonFileEditor.preview('/test/a.html');
+		commonFileEditor.preview('/test/a.html');
+		commonFileEditor.preview('/test/b.html');
 	});
 })();

@@ -15,6 +15,7 @@ window.CommonFileEditor = function($elm, options){
 	var templates = {
 		"mainframe": require('./resources/templates/mainframe.html'),
 		"tab": require('./resources/templates/tab.html'),
+		"tabbody": require('./resources/templates/tabbody.html'),
 		"preview": require('./resources/templates/preview.html'),
 		"editor": {
 			"texteditor": require('./resources/templates/editor/texteditor.html'),
@@ -51,40 +52,83 @@ window.CommonFileEditor = function($elm, options){
 	/**
 	 * ファイルのプレビューを開く
 	 */
-	this.createNewPreview = function(filename){
-		var $tab = _twig.twig({
-			data: templates.tab
-		}).render({
-			filename: filename,
-			label: filename
-		});
-		$elms.tabBar.innerHTML += $tab;
-
-		$elm.querySelectorAll('.common-file-editor__tab-bar a').forEach(function(elm){
-			elm.classList.remove('active');
-		});
-		$elm.querySelector('.common-file-editor__tab-bar a[data-filename="'+filename+'"]').classList.add('active');
-
-		var $preview = _twig.twig({
-			data: templates.preview
-		}).render({
-			filename: filename,
-			label: filename
-		});
-		$elms.body.innerHTML += $preview;
-
-		$elms.body.querySelectorAll('.common-file-editor__tab-body').forEach(function(elm){
-			elm.style.displya = 'none';
-		});
-		var $currentBody = $elms.body.querySelector('.common-file-editor__tab-body[data-filename="'+filename+'"]');
-		$currentBody.style.displya = 'block';
+	this.preview = function(filename){
+		this.createNewTab(filename);
 
 		options.read( filename, function(result){
-			console.log(result);
-			$currentBody.querySelector('pre code').innerHTML = _this.htmlspecialchars(_this.base64_decode(result.base64));
+			// console.log(result);
+			var $preview = _twig.twig({
+				data: templates.preview
+			}).render({
+				filename: filename,
+				label: filename,
+				src: _this.base64_decode(result.base64)
+			});
+
+			var $currentBody = $elms.body.querySelector('.common-file-editor__tab-body[data-filename="'+filename+'"]');
+			$currentBody.innerHTML = $preview;
+			$currentBody.querySelector('.common-file-editor__btn-edit-as-a-text').addEventListener('click', function(e){
+				var filename = this.getAttribute('data-filename');
+				alert('Edit: '+filename);
+			});
 		} );
 
 		// _this.pages[pageName]();
+	}
+
+	function tabOnClick(e){
+		_this.switchTab(this.getAttribute('data-filename'));
+	}
+
+	/**
+	 * 新しいタブを生成する
+	 */
+	this.createNewTab = function(filename){
+		if(!$elm.querySelector('.common-file-editor__tab-bar a[data-filename="'+filename+'"]')){
+			var $tab = _twig.twig({
+				data: templates.tab
+			}).render({
+				filename: filename,
+				label: filename
+			});
+			$elms.tabBar.innerHTML += $tab;
+		}
+		if(!$elms.body.querySelector('.common-file-editor__tab-body[data-filename="'+filename+'"]')){
+			var $tabBody = _twig.twig({
+				data: templates.tabbody
+			}).render({
+				filename: filename,
+				label: filename
+			});
+			$elms.body.innerHTML += $tabBody;
+		}
+
+		$elm.querySelectorAll('.common-file-editor__tab-bar a').forEach(function(a){
+			a.removeEventListener('click', tabOnClick);
+			a.addEventListener('click', tabOnClick);
+		});
+
+		return this.switchTab(filename);
+	}
+
+	/**
+	 * タブを切り替える生成する
+	 */
+	this.switchTab = function(filename){
+
+		// 一旦全部をノンアクティブ化
+		$elm.querySelectorAll('.common-file-editor__tab-bar a').forEach(function(elm){
+			elm.classList.remove('active');
+		});
+		$elms.body.querySelectorAll('.common-file-editor__tab-body').forEach(function(elm){
+			elm.style.display = 'none';
+		});
+
+		// 対象のタブをアクティブ化
+		$elm.querySelector('.common-file-editor__tab-bar a[data-filename="'+filename+'"]').classList.add('active');
+		$elms.body.querySelector('.common-file-editor__tab-body[data-filename="'+filename+'"]').style.display = 'block';
+
+		return;
 	}
 
 	this.base64_encode = function( bin ){
