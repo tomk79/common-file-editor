@@ -69,7 +69,49 @@ window.CommonFileEditor = function($elm, options){
 			$currentBody.innerHTML = $preview;
 			$currentBody.querySelector('.common-file-editor__btn-edit-as-a-text').addEventListener('click', function(e){
 				var filename = this.getAttribute('data-filename');
-				alert('Edit: '+filename);
+				_this.edit(filename);
+			});
+			$currentBody.querySelector('button.common-file-editor__btn-close').addEventListener('click', function(e){
+				var filename = this.getAttribute('data-filename');
+				_this.closeTab(filename);
+			});
+		} );
+
+		// _this.pages[pageName]();
+	}
+
+	/**
+	 * ファイルの編集画面を開く
+	 */
+	this.edit = function(filename){
+		this.createNewTab(filename);
+
+		options.read( filename, function(result){
+			var $texteditor = _twig.twig({
+				data: templates.editor.texteditor
+			}).render({
+				filename: filename,
+				label: filename,
+				src: _this.base64_decode(result.base64)
+			});
+
+			var $currentBody = $elms.body.querySelector('.common-file-editor__tab-body[data-filename="'+filename+'"]');
+			$currentBody.innerHTML = $texteditor;
+			$currentBody.querySelector('form').addEventListener('submit', function(e){
+				var filename = this.getAttribute('data-filename');
+				var newSrc = this.querySelector('textarea[name="common-file-editor__editor"]').value;
+				options.write(filename, _this.base64_encode(newSrc), function(result){
+					if(!result){
+						alert('Failed');
+						return;
+					}
+					_this.preview(filename);
+				});
+				return false;
+			});
+			$currentBody.querySelector('button.common-file-editor__btn-cancel').addEventListener('click', function(e){
+				var filename = this.getAttribute('data-filename');
+				_this.preview(filename);
 			});
 		} );
 
@@ -109,6 +151,28 @@ window.CommonFileEditor = function($elm, options){
 		});
 
 		return this.switchTab(filename);
+	}
+
+	/**
+	 * タブを閉じる
+	 */
+	this.closeTab = function(filename){
+		var tab = $elm.querySelector('.common-file-editor__tab-bar a[data-filename="'+filename+'"]');
+		var body = $elms.body.querySelector('.common-file-editor__tab-body[data-filename="'+filename+'"]');
+		if(tab){
+			tab.parentNode.removeChild(tab);
+		}
+		if(body){
+			body.parentNode.removeChild(body);
+		}
+
+		// 残ったタブ
+		var tabs = $elm.querySelectorAll('.common-file-editor__tab-bar a');
+		if( tabs.length ){
+			var focus = tabs[0].getAttribute('data-filename');
+			this.switchTab(focus);
+		}
+		return;
 	}
 
 	/**
