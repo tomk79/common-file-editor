@@ -78,6 +78,33 @@ window.CommonFileEditor = function($elm, options){
 				var filename = this.getAttribute('data-filename');
 				_this.closeTab(filename);
 			});
+			$currentBody.addEventListener('dragover', function(e){
+				e.stopPropagation();
+				e.preventDefault();
+			});
+			$currentBody.addEventListener('drop', function(e){
+				e.stopPropagation();
+				e.preventDefault();
+				var filename = this.getAttribute('data-filename');
+				var fileInfo = e.dataTransfer.files[0];
+				// alert(filename);
+				console.log(fileInfo);
+				(function(fileInfo, callback){
+					var reader = new FileReader();
+					reader.onload = function(evt) {
+						callback( evt.target.result );
+					}
+					reader.readAsDataURL(fileInfo);
+				})(fileInfo, function(dataUri){
+					dataUri.match(/^data\:([^\/]+?\/[^\/]+?)\;base64\,([\s\S]*)$/g);
+					var mime = RegExp.$1;
+					var base64 = RegExp.$2;
+					options.write(filename, base64, function(){
+						_this.preview(filename);
+					});
+				});
+			});
+
 		} );
 
 		// _this.pages[pageName]();
