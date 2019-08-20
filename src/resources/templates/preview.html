@@ -1,5 +1,25 @@
 <div class="common-file-editor__tab-body-preview">
-    <pre><code>{{ src|e }}</code></pre>
+    {% if ext == 'html'
+        or ext == 'md'
+        or ext == 'txt'
+        or ext == 'ini'
+        or ext == 'css'
+        or ext == 'scss'
+        or ext == 'js'
+        or ext == 'json'
+    %}
+    <pre><code>{{ bin|e }}</code></pre>
+    {% elseif ext == 'png' %}
+    <div><img src="data:image/png;base64,{{ base64 }}" alt="Preview" /></div>
+    {% elseif ext == 'jpg' or ext == 'jpeg' or ext == 'jpe' %}
+    <div><img src="data:image/jpeg;base64,{{ base64 }}" alt="Preview" /></div>
+    {% elseif ext == 'gif' %}
+    <div><img src="data:image/gif;base64,{{ base64 }}" alt="Preview" /></div>
+    {% elseif ext == 'svg' %}
+    <div><img src="data:image/svg+xml;base64,{{ base64 }}" alt="Preview" /></div>
+    {% else %}
+    <p>プレビューできない形式です。</p>
+    {% endif %}
     <ul>
         <li><button class="px2-btn px2-btn--primary common-file-editor__btn-edit-as-a-text" data-filename="{{ filename }}" type="button">テキストファイルとして編集</button></li>
         <li><button class="px2-btn common-file-editor__btn-close" data-filename="{{ filename }}" type="button">閉じる</button></li>

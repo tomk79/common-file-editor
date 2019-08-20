@@ -51,9 +51,14 @@
 	// console.log(commonFileEditor);
 	commonFileEditor.init(function(){
 		console.log('ready.');
+		commonFileEditor.preview('/test.txt');
 		commonFileEditor.preview('/test/a.html');
 		commonFileEditor.preview('/test/a.html');
 		commonFileEditor.preview('/test/a.html');
 		commonFileEditor.preview('/test/b.html');
+		commonFileEditor.preview('/test/clip.svg');
+		commonFileEditor.preview('/test/photo.jpg');
+		commonFileEditor.preview('/test/sample.gif');
+		commonFileEditor.preview('/test/image.png');
 	});
 })();

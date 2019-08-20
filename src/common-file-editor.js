@@ -57,12 +57,15 @@ window.CommonFileEditor = function($elm, options){
 
 		options.read( filename, function(result){
 			// console.log(result);
+			var ext = filename.replace(/^[\s\S]*\.([\s\S]+)$/, '$1').toLowerCase();
 			var $preview = _twig.twig({
 				data: templates.preview
 			}).render({
 				filename: filename,
+				ext: ext,
 				label: filename,
-				src: _this.base64_decode(result.base64)
+				base64: result.base64,
+				bin: _this.base64_decode(result.base64)
 			});
 
 			var $currentBody = $elms.body.querySelector('.common-file-editor__tab-body[data-filename="'+filename+'"]');
@@ -92,7 +95,7 @@ window.CommonFileEditor = function($elm, options){
 			}).render({
 				filename: filename,
 				label: filename,
-				src: _this.base64_decode(result.base64)
+				bin: _this.base64_decode(result.base64)
 			});
 
 			var $currentBody = $elms.body.querySelector('.common-file-editor__tab-body[data-filename="'+filename+'"]');
