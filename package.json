@@ -20,13 +20,12 @@
     "url": "https://github.com/tomk79/common-file-editor/issues"
   },
   "homepage": "https://github.com/tomk79/common-file-editor#readme",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
     "es6-promise": "^4.1.0",
     "fs-extra": "^7.0.1",
     "iterate79": "^1.0.0",
-    "utils79": "0.0.4"
-  },
-  "devDependencies": {
+    "utils79": "0.0.4",
     "body-parser": "^1.17.1",
     "bootstrap": "^4.3.1",
     "express": "^4.15.2",

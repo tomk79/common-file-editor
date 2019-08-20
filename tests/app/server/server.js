@@ -25,7 +25,12 @@ app.use( '/apis/read', function(req, res, next){
 	// console.log(req.originalUrl);
 	// console.log(req.query);
 
-	res.send(JSON.stringify({}));
+	var bin = fs.readFileSync(__dirname+'/../../data/' + req.body.filename);
+	bin = utils79.base64_encode(bin);
+
+	res.send(JSON.stringify({
+		'base64': bin
+	}));
 	return;
 } );
 app.use( '/apis/write', function(req, res, next){
@@ -35,7 +40,12 @@ app.use( '/apis/write', function(req, res, next){
 	// console.log(req.originalUrl);
 	// console.log(req.query);
 
-	res.send(JSON.stringify({}));
+	bin = utils79.base64_decode(req.body.base64);
+	fs.writeFileSync(__dirname+'/../../data/' + req.body.filename, bin);
+
+	res.send(JSON.stringify({
+		'base64': bin
+	}));
 	return;
 } );
 
