@@ -45,6 +45,11 @@
 					}
 				});
 				return;
+			},
+			onemptytab: function(){
+				if( confirm('Reopen a file ?') ){
+					commonFileEditor.preview('/test.txt');
+				}
 			}
 		}
 	);

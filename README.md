@@ -25,6 +25,9 @@ var commonFileEditor = new CommonFileEditor(
             // callback には、結果(true or false)を返してください。
             callback(true);
             return;
+        },
+        onemptytab: function(){
+            alert('すべてのタブが閉じられました。');
         }
     }
 );
@@ -46,6 +49,10 @@ commonFileEditor.init(function(){
 
 
 ## 更新履歴 - Change log
+
+### tomk79/common-file-editor v0.1.1 (リリース日未定)
+
+- オプション `onemptytab` 追加。
 
 ### tomk79/common-file-editor v0.1.0 (2019年8月21日)
 

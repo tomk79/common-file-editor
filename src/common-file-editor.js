@@ -6,6 +6,8 @@ window.CommonFileEditor = function($elm, options){
 	options = options || {};
 	options.read = options.read || function(){};
 	options.write = options.write || function(){};
+	options.onemptytab = options.onemptytab || function(){};
+
 	this.pages = {};
 
 	var _twig = require('twig');
@@ -204,6 +206,8 @@ window.CommonFileEditor = function($elm, options){
 		if( tabs.length ){
 			var focus = tabs[0].getAttribute('data-filename');
 			this.switchTab(focus);
+		}else{
+			options.onemptytab();
 		}
 		return;
 	}
