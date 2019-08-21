@@ -4,7 +4,7 @@
 		{
 			read: function(filename, callback){
 				// サーバーでファイルを読み込むAPIを用意してください。
-				// callback には、結果(true or false)を返してください。
+				// callback には、base64エンコードされた文字列を含むオブジェクトを返してください。
 				var stdout = '';
 				$.ajax({
 					url: '/apis/read',

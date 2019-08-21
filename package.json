@@ -1,8 +1,8 @@
 {
   "name": "@tomk79/common-file-editor",
-  "version": "0.1.0-alpha.1+dev",
-  "private": true,
-  "description": "",
+  "version": "0.1.0",
+  "private": false,
+  "description": "汎用的なファイル編集インターフェイスを提供するJavaScriptライブラリ",
   "main": "src/common-file-editor.js",
   "scripts": {
     "start": "node ./tests/app/server/server.js;",

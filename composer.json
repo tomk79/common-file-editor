@@ -1,6 +1,6 @@
 {
     "name": "tomk79/common-file-editor",
-    "description": "",
+    "description": "汎用的なファイル編集インターフェイスを提供するJavaScriptライブラリ",
     "keywords": [],
     "license": "MIT",
     "authors": [
