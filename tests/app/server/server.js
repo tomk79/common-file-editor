@@ -40,12 +40,10 @@ app.use( '/apis/write', function(req, res, next){
 	// console.log(req.originalUrl);
 	// console.log(req.query);
 
-	bin = utils79.base64_decode(req.body.base64);
+	var bin = new Buffer(req.body.base64, 'base64');
+	// var bin = utils79.base64_decode(req.body.base64);
 	fs.writeFileSync(__dirname+'/../../data/' + req.body.filename, bin);
-
-	res.send(JSON.stringify({
-		'base64': bin
-	}));
+	res.send(JSON.stringify(true));
 	return;
 } );
 

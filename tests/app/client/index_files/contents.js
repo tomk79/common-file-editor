@@ -40,7 +40,7 @@
 					},
 					complete: function(){
 						// alert(stdout);
-						var result = JSON.parse(stdout);
+						var result = stdout;
 						callback(result);
 					}
 				});

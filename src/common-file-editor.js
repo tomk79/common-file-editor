@@ -84,6 +84,9 @@ window.CommonFileEditor = function($elm, options){
 			$currentBody.addEventListener('drop', function(e){
 				e.stopPropagation();
 				e.preventDefault();
+				if(!e.dataTransfer.files.length){
+					return;
+				}
 				var filename = this.getAttribute('data-filename');
 				var fileInfo = e.dataTransfer.files[0];
 				// alert(filename);
@@ -91,6 +94,7 @@ window.CommonFileEditor = function($elm, options){
 				(function(fileInfo, callback){
 					var reader = new FileReader();
 					reader.onload = function(evt) {
+						// console.log(evt.target);
 						callback( evt.target.result );
 					}
 					reader.readAsDataURL(fileInfo);
