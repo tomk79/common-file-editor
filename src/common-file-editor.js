@@ -36,7 +36,7 @@ window.CommonFileEditor = function($elm, options){
 				$elm.innerHTML = templates.mainframe;
 
 				// tab bar
-				$elms.tabBar = $elm.querySelector('.common-file-editor__tab-bar .nav-tabs');
+				$elms.tabBar = $elm.querySelector('.common-file-editor__tab-bar > ul');
 
 				// body
 				$elms.body = $elm.querySelector('.common-file-editor__body');
@@ -219,14 +219,14 @@ window.CommonFileEditor = function($elm, options){
 
 		// 一旦全部をノンアクティブ化
 		$elm.querySelectorAll('.common-file-editor__tab-bar a').forEach(function(elm){
-			elm.classList.remove('active');
+			elm.classList.remove('current');
 		});
 		$elms.body.querySelectorAll('.common-file-editor__tab-body').forEach(function(elm){
 			elm.style.display = 'none';
 		});
 
 		// 対象のタブをアクティブ化
-		$elm.querySelector('.common-file-editor__tab-bar a[data-filename="'+filename+'"]').classList.add('active');
+		$elm.querySelector('.common-file-editor__tab-bar a[data-filename="'+filename+'"]').classList.add('current');
 		$elms.body.querySelector('.common-file-editor__tab-body[data-filename="'+filename+'"]').style.display = 'flex';
 
 		return;

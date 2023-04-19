@@ -53,6 +53,7 @@ commonFileEditor.init(function(){
 ### tomk79/common-file-editor v0.1.1 (リリース日未定)
 
 - オプション `onemptytab` 追加。
+- スタイリングの改善。
 
 ### tomk79/common-file-editor v0.1.0 (2019年8月21日)
 
