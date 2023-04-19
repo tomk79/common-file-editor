@@ -1,29 +1,47 @@
 <div class="common-file-editor__tab-body-preview">
-    <ul class="common-file-editor__tab-body-menu-bar">
-        <li><button class="px2-btn px2-btn--primary common-file-editor__btn-edit-as-a-text" data-filename="{{ filename }}" type="button">テキストファイルとして編集</button></li>
-        <li><button class="px2-btn common-file-editor__btn-close" data-filename="{{ filename }}" type="button">閉じる</button></li>
-    </ul>
-    <div class="common-file-editor__tab-body-preview-main">
-        {% if ext == 'html'
-            or ext == 'md'
-            or ext == 'txt'
-            or ext == 'ini'
-            or ext == 'css'
-            or ext == 'scss'
-            or ext == 'js'
-            or ext == 'json'
-        %}
-        <pre><code>{{ bin|e }}</code></pre>
-        {% elseif ext == 'png' %}
-        <div class="common-file-editor__tab-body-image-preview"><img src="data:image/png;base64,{{ base64 }}" alt="Preview" /></div>
-        {% elseif ext == 'jpg' or ext == 'jpeg' or ext == 'jpe' %}
-        <div class="common-file-editor__tab-body-image-preview"><img src="data:image/jpeg;base64,{{ base64 }}" alt="Preview" /></div>
-        {% elseif ext == 'gif' %}
-        <div class="common-file-editor__tab-body-image-preview"><img src="data:image/gif;base64,{{ base64 }}" alt="Preview" /></div>
-        {% elseif ext == 'svg' %}
-        <div class="common-file-editor__tab-body-image-preview"><img src="data:image/svg+xml;base64,{{ base64 }}" alt="Preview" /></div>
-        {% else %}
-        <p>プレビューできない形式です。</p>
-        {% endif %}
-    </div>
+	<ul class="common-file-editor__tab-body-menu-bar">
+		<li><button class="px2-btn px2-btn--primary common-file-editor__btn-edit-as-a-text" data-filename="{{ filename }}" type="button">テキストファイルとして編集</button></li>
+		<li><button class="px2-btn common-file-editor__btn-close" data-filename="{{ filename }}" type="button">閉じる</button></li>
+	</ul>
+	<div class="common-file-editor__tab-body-preview-main">
+		{% if
+			ext == 'html'
+			or ext == 'md'
+			or ext == 'txt'
+			or ext == 'css'
+			or ext == 'scss'
+			or ext == 'js'
+			or ext == 'jsx'
+			or ext == 'ts'
+		%}
+		<pre><code>{{ bin|e }}</code></pre>
+		{% elseif
+			ext == 'ini'
+			or ext == 'yml'
+			or ext == 'json'
+			or ext == 'env'
+			or ext == 'htaccess'
+			or ext == 'gitignore'
+			or ext == 'gitattributes'
+		%}
+		<pre><code>{{ bin|e }}</code></pre>
+		{% elseif
+			ext == 'php'
+			or ext == 'rb'
+			or ext == 'pl'
+			or ext == 'cgi'
+		%}
+		<pre><code>{{ bin|e }}</code></pre>
+		{% elseif ext == 'png' %}
+		<div class="common-file-editor__tab-body-image-preview"><img src="data:image/png;base64,{{ base64 }}" alt="Preview" /></div>
+		{% elseif ext == 'jpg' or ext == 'jpeg' or ext == 'jpe' %}
+		<div class="common-file-editor__tab-body-image-preview"><img src="data:image/jpeg;base64,{{ base64 }}" alt="Preview" /></div>
+		{% elseif ext == 'gif' %}
+		<div class="common-file-editor__tab-body-image-preview"><img src="data:image/gif;base64,{{ base64 }}" alt="Preview" /></div>
+		{% elseif ext == 'svg' %}
+		<div class="common-file-editor__tab-body-image-preview"><img src="data:image/svg+xml;base64,{{ base64 }}" alt="Preview" /></div>
+		{% else %}
+		<p>プレビューできない形式です。</p>
+		{% endif %}
+	</div>
 </div>

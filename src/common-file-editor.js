@@ -213,7 +213,7 @@ window.CommonFileEditor = function($elm, options){
 	}
 
 	/**
-	 * タブを切り替える生成する
+	 * タブを切り替える
 	 */
 	this.switchTab = function(filename){
 
