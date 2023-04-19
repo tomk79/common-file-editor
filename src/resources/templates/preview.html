@@ -13,11 +13,13 @@
 			or ext == 'js'
 			or ext == 'jsx'
 			or ext == 'ts'
+			or ext == 'twig'
 		%}
 		<pre><code>{{ bin|e }}</code></pre>
 		{% elseif
 			ext == 'ini'
 			or ext == 'yml'
+			or ext == 'xml'
 			or ext == 'json'
 			or ext == 'env'
 			or ext == 'htaccess'
