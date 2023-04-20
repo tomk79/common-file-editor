@@ -12,6 +12,7 @@
 var commonFileEditor = new CommonFileEditor(
     document.getElementById('cont-common-file-editor'),
     {
+        lang: "ja",
         read: function(filename, callback){
             // サーバーでファイルを読み込むAPIを用意してください。
             // callback には、base64エンコードされた文字列を含むオブジェクトを返してください。
@@ -54,6 +55,7 @@ commonFileEditor.init(function(){
 
 - オプション `onemptytab` 追加。
 - プレビュー可能な拡張子の登録を追加。
+- `options.lang` を追加した。
 - スタイリングの改善。
 
 ### tomk79/common-file-editor v0.1.0 (2019年8月21日)

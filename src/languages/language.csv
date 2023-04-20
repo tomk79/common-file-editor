@@ -1,0 +1,12 @@
+,en,ja,zh,zh-TW
+ui_label.ok,OK,OK,OK,OK
+ui_label.save,Save,保存する,保存,保存
+ui_label.cancel,Cancel,キャンセル,取消,取消
+ui_label.close,Close,閉じる,关闭,關閉
+ui_label.create,Create,作成する,,
+ui_label.finished,Finished,完了,,
+ui_label.anchor,Anchor,アンカー,,
+ui_label.search,Search,検索,,
+ui_label.back,Back,戻る,,
+ui_label.edit_as_text,"Edit as a Text file","テキストファイルとして編集",,
+ui_label.cannot_be_previewed,"This format cannot be previewed.","プレビューできない形式です。",,

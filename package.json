@@ -27,7 +27,6 @@
     "url": "https://github.com/tomk79/common-file-editor/issues"
   },
   "homepage": "https://github.com/tomk79/common-file-editor#readme",
-  "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.17.8",
     "@babel/preset-env": "^7.16.11",
@@ -37,6 +36,7 @@
     "body-parser": "^1.17.1",
     "bootstrap": "^4.3.1",
     "cheerio": "*",
+    "csv-loader": "^3.0.5",
     "dateformat": "^5.0.3",
     "diff2html": "^3.4.13",
     "express": "^4.15.2",
@@ -44,6 +44,7 @@
     "fs-extra": "^7.0.1",
     "iterate79": "^1.1.1",
     "jquery": "^3.6.0",
+    "langbank": "^0.3.1",
     "laravel-mix": "^6.0.6",
     "lodash": "^4.17.21",
     "marked": "^4.0.12",

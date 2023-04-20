@@ -2,6 +2,7 @@
 	var commonFileEditor = window.commonFileEditor = new CommonFileEditor(
 		document.getElementById('cont-common-file-editor'),
 		{
+			lang: "ja",
 			read: function(filename, callback){
 				// サーバーでファイルを読み込むAPIを用意してください。
 				// callback には、base64エンコードされた文字列を含むオブジェクトを返してください。

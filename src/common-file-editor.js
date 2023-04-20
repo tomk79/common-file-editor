@@ -2,8 +2,9 @@
  * CommonFileEditor
  */
 window.CommonFileEditor = function($elm, options){
-	var _this = this;
+	var main = this;
 	options = options || {};
+	options.lang = options.lang || "ja";
 	options.read = options.read || function(){};
 	options.write = options.write || function(){};
 	options.onemptytab = options.onemptytab || function(){};
@@ -11,6 +12,8 @@ window.CommonFileEditor = function($elm, options){
 	this.pages = {};
 
 	var _twig = require('twig');
+	var LangBank = require('langbank');
+	var languageCsv = require('./languages/language.csv');
 
 	var $elms = {};
 
@@ -31,6 +34,12 @@ window.CommonFileEditor = function($elm, options){
 		callback = callback || function(){};
 
 		new Promise(function(rlv){rlv();})
+			.then(function(){ return new Promise(function(rlv, rjt){
+				main.lb = new LangBank(languageCsv, ()=>{
+					main.lb.setLang( options.lang );
+					rlv();
+				});
+			}); })
 			.then(function(){ return new Promise(function(rlv, rjt){
 				$elm.classList.add("common-file-editor");
 				$elm.innerHTML = templates.mainframe;
@@ -59,25 +68,23 @@ window.CommonFileEditor = function($elm, options){
 		options.read( filename, function(result){
 			// console.log(result);
 			var ext = filename.replace(/^[\s\S]*\.([\s\S]+)$/, '$1').toLowerCase();
-			var $preview = _twig.twig({
-				data: templates.preview
-			}).render({
+			var $preview = main.bindTwig(templates.preview, {
 				filename: filename,
 				ext: ext,
 				label: filename,
 				base64: result.base64,
-				bin: _this.base64_decode(result.base64)
+				bin: main.base64_decode(result.base64)
 			});
 
 			var $currentBody = $elms.body.querySelector('.common-file-editor__tab-body[data-filename="'+filename+'"]');
 			$currentBody.innerHTML = $preview;
 			$currentBody.querySelector('.common-file-editor__btn-edit-as-a-text').addEventListener('click', function(e){
 				var filename = this.getAttribute('data-filename');
-				_this.edit(filename);
+				main.edit(filename);
 			});
 			$currentBody.querySelector('button.common-file-editor__btn-close').addEventListener('click', function(e){
 				var filename = this.getAttribute('data-filename');
-				_this.closeTab(filename);
+				main.closeTab(filename);
 			});
 			$currentBody.addEventListener('dragover', function(e){
 				e.stopPropagation();
@@ -105,14 +112,12 @@ window.CommonFileEditor = function($elm, options){
 					var mime = RegExp.$1;
 					var base64 = RegExp.$2;
 					options.write(filename, base64, function(){
-						_this.preview(filename);
+						main.preview(filename);
 					});
 				});
 			});
 
 		} );
-
-		// _this.pages[pageName]();
 	}
 
 	/**
@@ -122,12 +127,10 @@ window.CommonFileEditor = function($elm, options){
 		this.createNewTab(filename);
 
 		options.read( filename, function(result){
-			var $texteditor = _twig.twig({
-				data: templates.editor.texteditor
-			}).render({
+			var $texteditor = main.bindTwig(templates.editor.texteditor, {
 				filename: filename,
 				label: filename,
-				bin: _this.base64_decode(result.base64)
+				bin: main.base64_decode(result.base64)
 			});
 
 			var $currentBody = $elms.body.querySelector('.common-file-editor__tab-body[data-filename="'+filename+'"]');
@@ -135,26 +138,24 @@ window.CommonFileEditor = function($elm, options){
 			$currentBody.querySelector('form').addEventListener('submit', function(e){
 				var filename = this.getAttribute('data-filename');
 				var newSrc = this.querySelector('textarea[name="common-file-editor__editor"]').value;
-				options.write(filename, _this.base64_encode(newSrc), function(result){
+				options.write(filename, main.base64_encode(newSrc), function(result){
 					if(!result){
 						alert('Failed');
 						return;
 					}
-					_this.preview(filename);
+					main.preview(filename);
 				});
 				return false;
 			});
 			$currentBody.querySelector('button.common-file-editor__btn-cancel').addEventListener('click', function(e){
 				var filename = this.getAttribute('data-filename');
-				_this.preview(filename);
+				main.preview(filename);
 			});
 		} );
-
-		// _this.pages[pageName]();
 	}
 
 	function tabOnClick(e){
-		_this.switchTab(this.getAttribute('data-filename'));
+		main.switchTab(this.getAttribute('data-filename'));
 	}
 
 	/**
@@ -162,18 +163,14 @@ window.CommonFileEditor = function($elm, options){
 	 */
 	this.createNewTab = function(filename){
 		if(!$elm.querySelector('.common-file-editor__tab-bar a[data-filename="'+filename+'"]')){
-			var $tab = _twig.twig({
-				data: templates.tab
-			}).render({
+			var $tab = main.bindTwig(templates.tab, {
 				filename: filename,
 				label: filename
 			});
 			$elms.tabBar.innerHTML += $tab;
 		}
 		if(!$elms.body.querySelector('.common-file-editor__tab-body[data-filename="'+filename+'"]')){
-			var $tabBody = _twig.twig({
-				data: templates.tabbody
-			}).render({
+			var $tabBody = main.bindTwig(templates.tabbody, {
 				filename: filename,
 				label: filename
 			});
@@ -232,14 +229,25 @@ window.CommonFileEditor = function($elm, options){
 		return;
 	}
 
+	/**
+	 * base64に変換する
+	 */
 	this.base64_encode = function( bin ){
 		var base64 = new Buffer(bin).toString('base64');
 		return base64;
 	}
+
+	/**
+	 * base64を逆変換する
+	 */
 	this.base64_decode = function( base64 ){
 		var bin = new Buffer(base64, 'base64').toString();
 		return bin;
 	}
+
+	/**
+	 * HTML特殊文字をエスケープする
+	 */
 	this.htmlspecialchars = function( html ){
 		html = html.split('<').join('&lt;');
 		html = html.split('>').join('&gt;');
@@ -247,4 +255,17 @@ window.CommonFileEditor = function($elm, options){
 		return html;
 	}
 
+	/**
+	 * Twig テンプレートを処理する
+	 */
+	this.bindTwig = function( templateSrc, bindData ){
+		var data = {
+			"lb": main.lb,
+			...bindData,
+		};
+		var template = _twig.twig({
+			data: templateSrc,
+		});
+		return template.render(data);
+	}
 }
