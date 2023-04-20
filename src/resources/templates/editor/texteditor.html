@@ -1,8 +1,8 @@
 <div class="common-file-editor__tab-body-texteditor">
     <form action="javascript:;" method="post" data-filename="{{ filename }}">
         <ul class="common-file-editor__tab-body-menu-bar">
-            <li><button class="px2-btn px2-btn--primary" type="submit">保存する</button></li>
             <li><button class="px2-btn common-file-editor__btn-cancel" data-filename="{{ filename }}" type="button">キャンセル</button></li>
+            <li><button class="px2-btn px2-btn--primary" type="submit">保存する</button></li>
         </ul>
         <div class="common-file-editor__tab-body-editor-main"><textarea name="common-file-editor__editor">{{ bin|e }}</textarea></div>
     </form>

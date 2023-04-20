@@ -14,10 +14,7 @@
 			or ext == 'jsx'
 			or ext == 'ts'
 			or ext == 'twig'
-		%}
-		<pre><code>{{ bin|e }}</code></pre>
-		{% elseif
-			ext == 'ini'
+			or ext == 'ini'
 			or ext == 'yml'
 			or ext == 'xml'
 			or ext == 'json'
@@ -25,10 +22,7 @@
 			or ext == 'htaccess'
 			or ext == 'gitignore'
 			or ext == 'gitattributes'
-		%}
-		<pre><code>{{ bin|e }}</code></pre>
-		{% elseif
-			ext == 'php'
+			or ext == 'php'
 			or ext == 'rb'
 			or ext == 'pl'
 			or ext == 'cgi'
