@@ -51,7 +51,7 @@ commonFileEditor.init(function(){
 
 ## 更新履歴 - Change log
 
-### tomk79/common-file-editor v0.1.1 (リリース日未定)
+### tomk79/common-file-editor v0.1.1 (2023年4月22日)
 
 - オプション `onemptytab` 追加。
 - プレビュー可能な拡張子を追加。
