@@ -5,11 +5,12 @@
 	</ul>
 	<div class="common-file-editor__tab-body-preview-main">
 		{% if
-			ext == 'html'
+			ext == 'html' or ext == 'htm'
+			or ext == 'xhtm' or ext == 'xhtml'
 			or ext == 'md'
+			or ext == 'csv'
 			or ext == 'txt'
-			or ext == 'css'
-			or ext == 'scss'
+			or ext == 'css' or ext == 'scss'
 			or ext == 'js'
 			or ext == 'jsx'
 			or ext == 'ts'
@@ -17,21 +18,26 @@
 			or ext == 'ini'
 			or ext == 'yml'
 			or ext == 'xml'
+			or ext == 'rss' or ext == 'rdf'
+			or ext == 'mm'
+			or ext == 'svg'
 			or ext == 'json'
 			or ext == 'env'
 			or ext == 'htaccess'
-			or ext == 'gitignore'
-			or ext == 'gitattributes'
-			or ext == 'php'
+			or ext == 'gitkeep' or ext == 'gitignore' or ext == 'gitattributes'
+			or ext == 'jsp'
+			or ext == 'php' or ext == 'inc'
+			or ext == 'cgi'
 			or ext == 'rb'
 			or ext == 'pl'
-			or ext == 'cgi'
 		%}
 		<pre><code>{{ bin|e }}</code></pre>
 		{% elseif ext == 'png' %}
 		<div class="common-file-editor__tab-body-image-preview"><img src="data:image/png;base64,{{ base64 }}" alt="Preview" /></div>
 		{% elseif ext == 'jpg' or ext == 'jpeg' or ext == 'jpe' %}
 		<div class="common-file-editor__tab-body-image-preview"><img src="data:image/jpeg;base64,{{ base64 }}" alt="Preview" /></div>
+		{% elseif ext == 'webp' %}
+		<div class="common-file-editor__tab-body-image-preview"><img src="data:image/webp;base64,{{ base64 }}" alt="Preview" /></div>
 		{% elseif ext == 'gif' %}
 		<div class="common-file-editor__tab-body-image-preview"><img src="data:image/gif;base64,{{ base64 }}" alt="Preview" /></div>
 		{% elseif ext == 'svg' %}

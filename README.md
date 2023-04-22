@@ -54,7 +54,7 @@ commonFileEditor.init(function(){
 ### tomk79/common-file-editor v0.1.1 (リリース日未定)
 
 - オプション `onemptytab` 追加。
-- プレビュー可能な拡張子の登録を追加。
+- プレビュー可能な拡張子を追加。
 - `options.lang` を追加した。
 - スタイリングの改善。
 
