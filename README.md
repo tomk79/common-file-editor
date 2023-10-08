@@ -51,6 +51,10 @@ commonFileEditor.init(function(){
 
 ## 更新履歴 - Change log
 
+### tomk79/common-file-editor v0.1.2 (リリース日未定)
+
+- ダークモード用のスタイルをバンドルした。
+
 ### tomk79/common-file-editor v0.1.1 (2023年4月22日)
 
 - オプション `onemptytab` 追加。

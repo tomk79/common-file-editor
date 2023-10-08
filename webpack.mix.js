@@ -62,4 +62,5 @@ mix
 	// common-file-editor
 	.js('src/common-file-editor.js', 'dist/common-file-editor.js')
 	.sass('src/common-file-editor.css.scss', 'dist/common-file-editor.css')
+	.sass('src/themes/darkmode.css.scss', 'dist/themes/darkmode.css')
 ;

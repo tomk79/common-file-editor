@@ -1,0 +1,31 @@
+.common-file-editor {
+	pre {
+		code {
+			border: 1px solid #333;
+			background-color: #222;
+		}
+	}
+	textarea {
+		color: #ddd;
+		background-color: #222;
+		border: 1px solid #555;
+	}
+	&__tab-bar {
+		> ul {
+			> li {
+				> a {
+					background-color: #222;
+					color: #ddd;
+					&:hover {
+						background-color: #292929;
+						color: #00a0e6;
+					}
+					&.current {
+						background-color: #111;
+						color: #00a0e6;
+					}
+				}
+			}
+		}
+	}
+}
