@@ -192,7 +192,7 @@ window.CommonFileEditor = function($elm, options){
 		var tab = $elm.querySelector('.common-file-editor__tab-bar a[data-filename="'+filename+'"]');
 		var body = $elms.body.querySelector('.common-file-editor__tab-body[data-filename="'+filename+'"]');
 		if(tab){
-			tab.parentNode.removeChild(tab);
+			tab.parentNode.parentNode.removeChild(tab.parentNode);
 		}
 		if(body){
 			body.parentNode.removeChild(body);
