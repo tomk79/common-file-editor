@@ -51,7 +51,7 @@ commonFileEditor.init(function(){
 
 ## 更新履歴 - Change log
 
-### tomk79/common-file-editor v0.1.2 (リリース日未定)
+### tomk79/common-file-editor v0.1.2 (2023年11月13日)
 
 - ダークモード用のスタイルをバンドルした。
 - ファイルを閉じたときに、タブが正しく閉じられない不具合を修正した。
