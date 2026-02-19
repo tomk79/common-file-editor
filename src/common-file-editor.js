@@ -66,7 +66,6 @@ window.CommonFileEditor = function($elm, options){
 		this.createNewTab(filename);
 
 		options.read( filename, function(result){
-			// console.log(result);
 			var ext = filename.replace(/^[\s\S]*\.([\s\S]+)$/, '$1').toLowerCase();
 			var $preview = main.bindTwig(templates.preview, {
 				filename: filename,
@@ -98,12 +97,10 @@ window.CommonFileEditor = function($elm, options){
 				}
 				var filename = this.getAttribute('data-filename');
 				var fileInfo = e.dataTransfer.files[0];
-				// alert(filename);
-				console.log(fileInfo);
+
 				(function(fileInfo, callback){
 					var reader = new FileReader();
 					reader.onload = function(evt) {
-						// console.log(evt.target);
 						callback( evt.target.result );
 					}
 					reader.readAsDataURL(fileInfo);
