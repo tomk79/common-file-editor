@@ -5,6 +5,9 @@
   "description": "汎用的なファイル編集インターフェイスを提供するJavaScriptライブラリ",
   "main": "src/common-file-editor.js",
   "scripts": {
+    "patch:jspdf": "node scripts/patch-jspdf.js",
+    "preproduction": "npm run patch:jspdf",
+    "predevelopment": "npm run patch:jspdf",
     "dev": "npm run development",
     "development": "mix",
     "watch": "mix watch",

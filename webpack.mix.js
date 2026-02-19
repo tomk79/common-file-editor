@@ -76,6 +76,8 @@ mix
 				'react': path.resolve(__dirname, 'node_modules/react'),
 				'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
 				'react-dom/client': path.resolve(__dirname, 'node_modules/react-dom/client'),
+				// 動的 import を eager にした jspdf（チャンク分割を防ぐ）
+				'jspdf': path.resolve(__dirname, 'src/vendor/jspdf.es.patched.js'),
 			},
 			fallback: {
 				"fs": false,
