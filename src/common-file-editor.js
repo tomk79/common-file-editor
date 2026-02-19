@@ -14,6 +14,7 @@ window.CommonFileEditor = function($elm, options){
 	var _twig = require('twig');
 	var LangBank = require('langbank');
 	var languageCsv = require('./languages/language.csv');
+	var mmIntegration = require('./mm-integration.jsx');
 
 	var $elms = {};
 
@@ -23,7 +24,8 @@ window.CommonFileEditor = function($elm, options){
 		"tabbody": require('./resources/templates/tabbody.html'),
 		"preview": require('./resources/templates/preview.html'),
 		"editor": {
-			"texteditor": require('./resources/templates/editor/texteditor.html')
+			"texteditor": require('./resources/templates/editor/texteditor.html'),
+			"mmeditor": require('./resources/templates/editor/mmeditor.html')
 		}
 	};
 
@@ -67,16 +69,28 @@ window.CommonFileEditor = function($elm, options){
 
 		options.read( filename, function(result){
 			var ext = filename.replace(/^[\s\S]*\.([\s\S]+)$/, '$1').toLowerCase();
+			var bin = main.base64_decode(result.base64);
 			var $preview = main.bindTwig(templates.preview, {
 				filename: filename,
 				ext: ext,
 				label: filename,
 				base64: result.base64,
-				bin: main.base64_decode(result.base64)
+				bin: bin
 			});
 
 			var $currentBody = $elms.body.querySelector('.common-file-editor__tab-body[data-filename="'+filename+'"]');
+			if (typeof $currentBody._mmUnmount === 'function') {
+				$currentBody._mmUnmount();
+				$currentBody._mmUnmount = null;
+			}
 			$currentBody.innerHTML = $preview;
+			if (ext === 'mm') {
+				var mmPreviewContainer = $currentBody.querySelector('.common-file-editor__mm-preview');
+				if (mmPreviewContainer) {
+					var mmPreviewResult = mmIntegration.mountMmPreview(mmPreviewContainer, bin);
+					$currentBody._mmUnmount = mmPreviewResult.unmount;
+				}
+			}
 			$currentBody.querySelector('.common-file-editor__btn-edit-as-a-text').addEventListener('click', function(e){
 				var filename = this.getAttribute('data-filename');
 				main.edit(filename);
@@ -124,30 +138,64 @@ window.CommonFileEditor = function($elm, options){
 		this.createNewTab(filename);
 
 		options.read( filename, function(result){
-			var $texteditor = main.bindTwig(templates.editor.texteditor, {
-				filename: filename,
-				label: filename,
-				bin: main.base64_decode(result.base64)
-			});
+			var ext = filename.replace(/^[\s\S]*\.([\s\S]+)$/, '$1').toLowerCase();
+			var bin = main.base64_decode(result.base64);
 
 			var $currentBody = $elms.body.querySelector('.common-file-editor__tab-body[data-filename="'+filename+'"]');
-			$currentBody.innerHTML = $texteditor;
-			$currentBody.querySelector('form').addEventListener('submit', function(e){
-				var filename = this.getAttribute('data-filename');
-				var newSrc = this.querySelector('textarea[name="common-file-editor__editor"]').value;
-				options.write(filename, main.base64_encode(newSrc), function(result){
-					if(!result){
-						alert('Failed');
-						return;
-					}
+			if (typeof $currentBody._mmUnmount === 'function') {
+				$currentBody._mmUnmount();
+				$currentBody._mmUnmount = null;
+			}
+
+			if (ext === 'mm') {
+				var $mmeditor = main.bindTwig(templates.editor.mmeditor, {
+					filename: filename,
+					label: filename
+				});
+				$currentBody.innerHTML = $mmeditor;
+				var mmEditorContainer = $currentBody.querySelector('.common-file-editor__mm-editor-main');
+				var mmEditorResult = mmIntegration.mountMmEditor(mmEditorContainer, bin);
+				$currentBody._mmUnmount = mmEditorResult.unmount;
+
+				$currentBody.querySelector('.common-file-editor__btn-mm-save').addEventListener('click', function(){
+					var filename = this.getAttribute('data-filename');
+					var xml = mmEditorResult.getXml();
+					options.write(filename, main.base64_encode(xml), function(result){
+						if(!result){
+							alert('Failed');
+							return;
+						}
+						main.preview(filename);
+					});
+				});
+				$currentBody.querySelector('.common-file-editor__btn-cancel').addEventListener('click', function(){
+					var filename = this.getAttribute('data-filename');
 					main.preview(filename);
 				});
-				return false;
-			});
-			$currentBody.querySelector('button.common-file-editor__btn-cancel').addEventListener('click', function(e){
-				var filename = this.getAttribute('data-filename');
-				main.preview(filename);
-			});
+			} else {
+				var $texteditor = main.bindTwig(templates.editor.texteditor, {
+					filename: filename,
+					label: filename,
+					bin: bin
+				});
+				$currentBody.innerHTML = $texteditor;
+				$currentBody.querySelector('form').addEventListener('submit', function(e){
+					var filename = this.getAttribute('data-filename');
+					var newSrc = this.querySelector('textarea[name="common-file-editor__editor"]').value;
+					options.write(filename, main.base64_encode(newSrc), function(result){
+						if(!result){
+							alert('Failed');
+							return;
+						}
+						main.preview(filename);
+					});
+					return false;
+				});
+				$currentBody.querySelector('button.common-file-editor__btn-cancel').addEventListener('click', function(e){
+					var filename = this.getAttribute('data-filename');
+					main.preview(filename);
+				});
+			}
 		} );
 	}
 
@@ -192,6 +240,9 @@ window.CommonFileEditor = function($elm, options){
 			tab.parentNode.parentNode.removeChild(tab.parentNode);
 		}
 		if(body){
+			if (typeof body._mmUnmount === 'function') {
+				body._mmUnmount();
+			}
 			body.parentNode.removeChild(body);
 		}
 
@@ -227,19 +278,23 @@ window.CommonFileEditor = function($elm, options){
 	}
 
 	/**
-	 * base64に変換する
+	 * base64に変換する（Node の Buffer またはブラウザの btoa を使用）
 	 */
 	this.base64_encode = function( bin ){
-		var base64 = new Buffer(bin).toString('base64');
-		return base64;
+		if (typeof Buffer !== 'undefined') {
+			return new Buffer(bin).toString('base64');
+		}
+		return btoa(unescape(encodeURIComponent(bin)));
 	}
 
 	/**
-	 * base64を逆変換する
+	 * base64を逆変換する（Node の Buffer またはブラウザの atob を使用）
 	 */
 	this.base64_decode = function( base64 ){
-		var bin = new Buffer(base64, 'base64').toString();
-		return bin;
+		if (typeof Buffer !== 'undefined') {
+			return new Buffer(base64, 'base64').toString();
+		}
+		return decodeURIComponent(escape(atob(base64)));
 	}
 
 	/**

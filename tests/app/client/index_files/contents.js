@@ -66,5 +66,6 @@
 		commonFileEditor.preview('/test/photo.jpg');
 		commonFileEditor.preview('/test/sample.gif');
 		commonFileEditor.preview('/test/image.png');
+		commonFileEditor.preview('/test/sample.mm');
 	});
 })();

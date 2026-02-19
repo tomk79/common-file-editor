@@ -1,3 +1,4 @@
+const path = require('path');
 const mix = require('laravel-mix');
 
 /*
@@ -44,16 +45,48 @@ mix
 							]
 						}
 					}]
+				},
+				{
+					test: /\.tsx?$/,
+					include: [
+						path.resolve(__dirname, 'src'),
+						path.resolve(__dirname, 'node_modules/@tomk79/htmm'),
+					],
+					use: {
+						loader: 'ts-loader',
+						options: {
+							transpileOnly: true,
+							compilerOptions: {
+								module: 'esnext',
+								moduleResolution: 'node',
+								jsx: 'react-jsx',
+								allowSyntheticDefaultImports: true,
+								esModuleInterop: true,
+								noEmit: true,
+							},
+						},
+					},
 				}
 			]
 		},
 		resolve: {
+			extensions: ['.ts', '.tsx', '.js', '.jsx'],
+			alias: {
+				// 単一の React に統一（htmm の node_modules/react を参照させない）
+				'react': path.resolve(__dirname, 'node_modules/react'),
+				'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
+				'react-dom/client': path.resolve(__dirname, 'node_modules/react-dom/client'),
+			},
 			fallback: {
 				"fs": false,
 				"path": false,
 				"crypto": false,
 				"stream": false,
 			}
+		},
+		optimization: {
+			splitChunks: false,
+			runtimeChunk: false,
 		}
 	})
 

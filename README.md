@@ -54,6 +54,7 @@ commonFileEditor.init(function(){
 ### tomk79/common-file-editor v0.2.0 (リリース日未定)
 
 - SVGをプレビューするようになった。
+- `.mm` 形式のプレビューと編集に対応した。
 
 ### tomk79/common-file-editor v0.1.2 (2023年11月13日)
 

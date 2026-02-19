@@ -152,5 +152,24 @@
 			width: 100%;
 			box-sizing: border-box;
 		}
-	 }
+	}
+
+	&__mm-preview,
+	&__htmm-preview {
+		flex-grow: 1000;
+		min-height: 400px;
+		width: 100%;
+	}
+
+	&__tab-body-mmeditor {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1000;
+	}
+	&__mm-editor-main,
+	&__htmm-editor {
+		flex-grow: 1000;
+		min-height: 400px;
+		width: 100%;
+	}
 }
