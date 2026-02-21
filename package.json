@@ -31,7 +31,7 @@
   },
   "homepage": "https://github.com/tomk79/common-file-editor#readme",
   "dependencies": {
-    "@tomk79/htmm": "github:tomk79/htmm#develop"
+    "@tomk79/htmm": "^0.0.2"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",
